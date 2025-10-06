@@ -1,0 +1,19 @@
+Package: ICenCov
+Title: Regression Models with Interval-Censored Covariates
+Version: 0.0.0.9000
+Date: 2025-10-05
+Authors@R: c(
+    person("Andrea", "Toloba", , "andrea.toloba@upc.edu", role = c("aut", "cre")),
+    person("Klaus", "Langohr", , "klaus.langohr@upc.edu", role = "aut"),
+    person("Guadalupe", "Gómez Melis", , "lupe.gomez@upc.edu", role = "aut")
+  )
+Maintainer: Andrea Toloba <andrea.toloba@upc.edu>
+Description: Fit regression models with an interval-censored covariate
+Imports: 
+    cubature,
+    ggplot2,
+    statmod
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+License: MIT + file LICENSE
