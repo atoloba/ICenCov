@@ -127,7 +127,7 @@ icglm <- function(formula, family = gaussian, data,
 
   mf <- model.frame(tf, data = data)
   y <- unclass(model.response(mf))
-  X <- model.matrix(drop.terms(tf, sp-1, keep.response = FALSE), mf)
+  X <- if (length(attr(tf,"term.labels"))-length(sp)>0) model.matrix(drop.terms(tf, sp - 1, keep.response = FALSE), mf) else model.matrix(y ~ 1, data)
   zl <- mf[[sp]][,1]
   zr <- mf[[sp]][,2]
 
