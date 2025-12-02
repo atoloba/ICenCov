@@ -1,4 +1,4 @@
-The final version of the package will be available by November 2025
+The final version of the package will be available by December 2025
 
 # ICenCov: Regression Models with Interval-Censored Covariates 
 
