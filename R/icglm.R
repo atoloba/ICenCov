@@ -54,7 +54,8 @@
 #'          \item \code{iter_vals, iter_reldif}: per-iteration parameter values and relative diffs.
 #'          \item \code{start_used}: starting values used.
 #'    }
-#'   \item{\code{call,family}}{Info.}
+#'  }
+#'   \item{\code{call,family}}{further information.}
 #' }
 #'
 #'
@@ -92,7 +93,7 @@
 #'     mult_wt*100, CI_wt[1]*100, CI_wt[2]*100))
 #'
 #'
-#' @seealso \code{\link[stats]{glm}},
+#' @seealso \code{\link[stats]{glm}}
 #'
 #' @references
 #' Gómez, G., Espinal, A., & Lagakos, S. W. (2003).

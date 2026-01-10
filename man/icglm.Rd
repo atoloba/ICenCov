@@ -80,7 +80,8 @@ observed Hessian at \code{(thetaHat, wHat)}}
 \item \code{iter_vals, iter_reldif}: per-iteration parameter values and relative diffs.
 \item \code{start_used}: starting values used.
 }
-\item{\code{call,family}}{Info.}
+}
+\item{\code{call,family}}{further information.}
 }
 }
 \description{
@@ -130,5 +131,5 @@ Inference for a linear regression model with an interval-censored covariate.
 \emph{Statistics in Medicine}, 22(3), 409–425. \doi{10.1002/sim.1326}
 }
 \seealso{
-\code{\link[stats]{glm}},
+\code{\link[stats]{glm}}
 }

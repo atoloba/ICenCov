@@ -6,7 +6,7 @@
 #' of the HIV (Gulick et al., 2000). One research question of interest 
 #' was whether delays in initiating the new treatment could influence viral 
 #' load levels at baseline, and so potentially affect treatment prognosis.
-#' Indinavir failure was defined as a rebound in viral load ($>500$ copies/mL)
+#' Indinavir failure was defined as a rebound in viral load (\eqn{> 500} copies/mL)
 #' after an initial period of virologic suppression, with viral load monitored
 #' at regular visits. Therefore, the time between indinavir failure and study 
 #' start is interval-censored.
@@ -16,8 +16,8 @@
 #'   \item{logRNA}{Log\eqn{_{10}} copies of RNA (viral load).}
 #'   \item{RNA}{Copies of RNA (viral load).}
 #'   \item{age}{Age (years).}
-#'   \item{zl}{Time from \emph{first} viral load \(> 500\) copies/mL to randomization, in weeks.}
-#'   \item{zr}{Time from \emph{last} viral load \(< 500\) copies/mL to randomization, in weeks.}
+#'   \item{zl}{Time from \emph{first} viral load \eqn{> 500} copies/mL to randomization, in weeks.}
+#'   \item{zr}{Time from \emph{last} viral load \eqn{< 500} copies/mL to randomization, in weeks.}
 #' }
 #'
 #' @details
