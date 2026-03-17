@@ -24,6 +24,17 @@ dispersion.icglm(object, ...)
   ...
 )
 }
+\arguments{
+\item{object}{An object of class \code{icglm}.}
+
+\item{...}{Further arguments passed to or from methods.}
+
+\item{x}{An object of class \code{summary.icglm}.}
+
+\item{digits}{Minimum number of significant digits to print.}
+
+\item{signif.stars}{Logical; if \code{TRUE}, print significance stars.}
+}
 \description{
 Minimal S3 methods to work with model fits of class \code{icglm},
 analogous to \code{glm} methods
@@ -31,14 +42,14 @@ analogous to \code{glm} methods
 \examples{
 fit <- icglm(RNA ~ age + ic(zl, zr, "time"),
              family = Gamma("log"), data = actg359,
-             Lin = FALSE, Rin = TRUE)
+             Lin = TRUE, Rin = FALSE)
 summary(fit)
 coef(fit)
 vcov(fit)
 
 }
 \seealso{
-\code{\link[stats]{coef.glm}}, \code{\link[stats]{vcov.glm}},
-\code{\link[stats]{summary.glm}}
+\code{\link{icglm}}, \code{\link[stats]{glm}}, \code{\link[stats]{coef}}, \code{\link[stats]{vcov}},
+\code{\link[stats]{printCoefmat}}
 }
 \concept{icglm}

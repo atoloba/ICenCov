@@ -33,6 +33,8 @@ in the interval (see below).}
 \code{gaussian()}, \code{Gamma()}, \code{inverse.gaussian()},
 \code{binomial()}, and \code{poisson()}.}
 
+\item{data}{Optional data frame used to evaluate \code{formula}.}
+
 \item{Lin, Rin}{Logical scalar or length-\eqn{n} vector indicating whether the
 left/right endpoints are included in the interval. Defaults are \code{TRUE} for both.}
 
@@ -113,15 +115,10 @@ cat(sprintf("OR = \%.2f (\%.2f, \%.2f)\n",
 data(actg359)
 
 fit2 <- icglm(RNA ~ age + ic(zl, zr, "waitime"), family = Gamma("log"),
-  data = actg359, Lin = FALSE, Rin = TRUE)
+  data = actg359, Lin = TRUE, Rin = FALSE)
 summary(fit2)
 
 # Multiplicative effect of a 3-week increase in 'waitime' on the response scale:
-i = 3
-mult_wt   <- exp(3 * coef(fit2)[i]) - 1
-CI_wt <- exp(3 * coef(fit2)[i] + 3*c(-1,1)*qnorm(0.975)*sqrt(vcov(fit2)[i,i])) - 1
-cat(sprintf("OR = \%.1f (\%.1f, \%.1f)\n",
-    mult_wt*100, CI_wt[1]*100, CI_wt[2]*100))
 
 
 }

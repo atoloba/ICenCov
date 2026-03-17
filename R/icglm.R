@@ -15,6 +15,7 @@
 #' @param family A \code{stats::family} object. Supported families are
 #'   \code{gaussian()}, \code{Gamma()}, \code{inverse.gaussian()},
 #'   \code{binomial()}, and \code{poisson()}.
+#' @param data Optional data frame used to evaluate \code{formula}.
 #' @param Lin,Rin Logical scalar or length-\eqn{n} vector indicating whether the
 #'   left/right endpoints are included in the interval. Defaults are \code{TRUE} for both.
 #' @param tolpar Relative change threshold for the parameter vector used as a
@@ -82,15 +83,15 @@
 #' data(actg359)
 #'
 #' fit2 <- icglm(RNA ~ age + ic(zl, zr, "waitime"), family = Gamma("log"),
-#'   data = actg359, Lin = FALSE, Rin = TRUE)
+#'   data = actg359, Lin = TRUE, Rin = FALSE)
 #' summary(fit2)
 #'
 #' # Multiplicative effect of a 3-week increase in 'waitime' on the response scale:
-#' i = 3
-#' mult_wt   <- exp(3 * coef(fit2)[i]) - 1
-#' CI_wt <- exp(3 * coef(fit2)[i] + 3*c(-1,1)*qnorm(0.975)*sqrt(vcov(fit2)[i,i])) - 1
-#' cat(sprintf("OR = %.1f (%.1f, %.1f)\n",
-#'     mult_wt*100, CI_wt[1]*100, CI_wt[2]*100))
+# i = 3
+# mult_wt   <- exp(3 * coef(fit2)[i]) - 1
+# CI_wt <- exp(3 * coef(fit2)[i] + 3*c(-1,1)*qnorm(0.975)*sqrt(vcov(fit2)[i,i])) - 1
+# cat(sprintf("Relative change = %.1f (%.1f, %.1f)\n",
+#     mult_wt*100, CI_wt[1]*100, CI_wt[2]*100))
 #'
 #'
 #' @seealso \code{\link[stats]{glm}}
@@ -99,6 +100,11 @@
 #' Gómez, G., Espinal, A., & Lagakos, S. W. (2003).
 #' Inference for a linear regression model with an interval-censored covariate.
 #' \emph{Statistics in Medicine}, 22(3), 409–425. \doi{10.1002/sim.1326}
+#'
+#' @importFrom stats terms model.frame model.response model.matrix drop.terms
+#' @importFrom stats gaussian Gamma inverse.gaussian binomial poisson
+#' @importFrom stats pnorm dnorm pcauchy dcauchy
+#' @importFrom stats glm setNames
 #'
 #' @export
 icglm <- function(formula, family = gaussian, data,

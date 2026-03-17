@@ -10,9 +10,15 @@ interval-censored data.
 
 **ICenCov** can be installed from GitHub:
 
-``` r
+```r
 # install.packages("remotes")
 remotes::install_github("atoloba/ICenCov")
+```
+
+To install the version used in the original GELc article, use:
+
+```r
+remotes::install_github("atoloba/ICenCov", ref = "paper-2026")
 ```
 
 ## Brief Examples
@@ -55,7 +61,7 @@ under the *Gamma(link="log")* family. The expression of the model is
 ```math
 E[{\rm RNA}] = \exp\{ \alpha+\beta {\rm age} + \gamma {\rm waitime} \},
 ```
-and *waitime* is interval-censored in (*zl*, *zr*].
+and *waitime* is interval-censored in [*zl*, *zr*).
 
 <br>
 
@@ -65,7 +71,7 @@ data(actg359)
 
 # fit the gamma regression model specifying the link function 'log'
 fit2 <- icglm(RNA ~ age + ic(zl, zr, "waitime"), family = Gamma("log"),
-              data = actg359, Lin = FALSE, Rin = TRUE)
+              data = actg359, Lin = TRUE, Rin = FALSE)
 
 # print the summary
 summary(fit2)
@@ -74,7 +80,7 @@ summary(fit2)
 i = 3
 mult_wt   <- exp(3 * coef(fit2)[i]) - 1
 CI_wt <- exp(3 * coef(fit2)[i] + 3*c(-1,1)*qnorm(0.975)*sqrt(vcov(fit2)[i,i])) - 1
-cat(sprintf("OR = %.1f (%.1f, %.1f)\n", mult_wt*100, CI_wt[1]*100, CI_wt[2]*100))
+cat(sprintf("Relative change = %.1f (%.1f, %.1f)\n", mult_wt*100, CI_wt[1]*100, CI_wt[2]*100))
 ```
 
 

@@ -8,12 +8,24 @@ Authors@R: c(
     person("Guadalupe", "Gómez Melis", , "lupe.gomez@upc.edu", role = "aut")
   )
 Maintainer: Andrea Toloba <andrea.toloba@upc.edu>
-Description: Fit regression models with an interval-censored covariate
+Description: Methods for generalized linear models with interval-censored covariates,
+    including estimation and diagnostic tools.
 Imports: 
+    bbmle,
     cubature,
     ggplot2,
+    interval,
+    nloptr,
+    numDeriv,
+    scales,
     statmod
+Suggests: 
+    ggpubr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 License: MIT + file LICENSE
+Depends: 
+    R (>= 3.5)
+LazyData: true
+

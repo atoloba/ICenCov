@@ -4,13 +4,24 @@
 \alias{icfit2}
 \title{Turnbull's estimator along the augmented Turnbull intervals}
 \usage{
-icfit2(L, R, Lin = T, Rin = T, keepall = FALSE, accu = 1e-10)
+icfit2(L, R, Lin = TRUE, Rin = TRUE, keepall = FALSE, accu = 1e-10)
+}
+\arguments{
+\item{L, R}{Numeric vectors of left/right endpoints of the observed intervals.}
+
+\item{Lin, Rin}{Logical scalar or length-\eqn{n} vectors indicating whether the
+left/right endpoints are included.}
+
+\item{keepall}{Logical; if \code{FALSE} (default), remove partition intervals
+with zero contribution (columns with all zeros).}
+
+\item{accu}{Convergence tolerance for the self-consistency iterations (default \code{1e-10}).}
 }
 \description{
 Turnbull's estimator along the augmented Turnbull intervals
 }
 \details{
-This function is adapted from the \CRANpkg{interval} package to operate on
+This function is adapted from the \pkg{interval} package to operate on
 augmented Turnbull partitions.
 }
 \seealso{

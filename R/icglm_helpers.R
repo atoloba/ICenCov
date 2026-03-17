@@ -3,16 +3,21 @@
 #' @description
 #' Minimal S3 methods to work with model fits of class \code{icglm},
 #' analogous to \code{glm} methods
-
+#'
+#' @param object An object of class \code{icglm}.
+#' @param x An object of class \code{summary.icglm}.
+#' @param ... Further arguments passed to or from methods.
+#' @param digits Minimum number of significant digits to print.
+#' @param signif.stars Logical; if \code{TRUE}, print significance stars.
 #'
 #' @seealso
-#' \code{\link[stats]{coef.glm}}, \code{\link[stats]{vcov.glm}},
-#' \code{\link[stats]{summary.glm}}
+#' \code{\link{icglm}}, \code{\link[stats]{glm}}, \code{\link[stats]{coef}}, \code{\link[stats]{vcov}},
+#' \code{\link[stats]{printCoefmat}}
 #'
 #' @examples
 #' fit <- icglm(RNA ~ age + ic(zl, zr, "time"),
 #'              family = Gamma("log"), data = actg359,
-#'              Lin = FALSE, Rin = TRUE)
+#'              Lin = TRUE, Rin = FALSE)
 #' summary(fit)
 #' coef(fit)
 #' vcov(fit)
@@ -25,6 +30,7 @@
 #' summary.icglm
 #' print.summary.icglm
 #' @family icglm
+#' @importFrom stats coef vcov pnorm printCoefmat
 NULL
 
 #' @rdname icglm-methods
@@ -53,30 +59,30 @@ vcov.icglm <- function(object, ...) {
 #' @export
 #' @method summary icglm
 summary.icglm <- function(object, ...) {
-  
+
   co <- coef(object)
   if (!is.null(names(co)) && "disp" %in% names(co)) {
     co <- co[setdiff(names(co), "disp")]
   }
-  
+
   V  <- vcov(object)
   rn <- rownames(V)
   if (!is.null(rn) && "disp" %in% rn) {
     keep <- setdiff(rn, "disp")
     V <- V[keep, keep, drop = FALSE]
   }
-  
+
   se <- sqrt(diag(V))
   z  <- co / se
   p  <- 2 * pnorm(abs(z), lower.tail = FALSE)
-  
+
   coef.tab <- cbind(
     Estimate     = co,
     `Std. Error` = se,
     `z value`    = z,
     `Pr(>|z|)`   = p
   )
-  
+
   out <- list(
     call         = object$call,
     family       = object$family,
@@ -99,7 +105,7 @@ print.summary.icglm <- function(x,
   print(x$call)
   cat("\nFamily: ", x$family$family, "(", x$family$link, ")\n", sep = "")
   cat("\nDispersion:", format(x$dispersion, digits = digits), "\n")
-  
+
   cat("\nCoefficients:\n")
   printCoefmat(x$coefficients, digits = digits, signif.stars = signif.stars)
   invisible(x)

@@ -8,7 +8,6 @@
 #' @param name (optional) Name of the variable; defaults to \emph{"z"}.
 #'
 #' @export
-#' @noRd
 ic <- function(zl, zr, name = "z"){
   out <- cbind(zl,zr)
   colnames(out) <- paste0(name,c("l","r"))

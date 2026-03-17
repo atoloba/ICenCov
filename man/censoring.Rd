@@ -9,11 +9,12 @@ censoring(z, zmin = 0, zmax = NULL, rini = NULL, rfun, dec = NULL)
 \arguments{
 \item{z}{Numeric vector. Latent true values.}
 
-\item{zmin}{Numeric. Lower bound of the support for \code{z}. Default is 0.}
+\item{zmin}{Non-negative numeric. Lower bound of the support for \code{z}. Default is 0.}
 
 \item{zmax}{Optional numeric. Upper bound of the support for \code{z}. If \code{NULL}, only \code{zmin} is enforced.}
 
-\item{rini}{Optional function. A function that generates the initial gap after \code{zmin}. If \code{NULL}, \code{rfun} is used instead.}
+\item{rini}{Optional function. A function that generates the initial gap after \code{zmin}.
+If \code{NULL}, no initial gap is added (i.e., 0).}
 
 \item{rfun}{Function. Used to generate random positive gap widths.}
 

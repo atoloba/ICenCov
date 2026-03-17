@@ -30,7 +30,7 @@ with zero contribution (columns with all zeros).}
 Construct augmented Turnbull intervals and incidence matrix
 }
 \details{
-This function adapts function Aintmap from the \CRANpkg{interval} package
+This function adapts function Aintmap from the \pkg{interval} package
 to handle augmented Turnbull intervals.
 }
 \seealso{
