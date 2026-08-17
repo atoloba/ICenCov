@@ -169,7 +169,7 @@ ggpubr::ggarrange(plotlist = list(g0, g1), nrow = 1)
 
 }
 \references{
-Gómez Melis, G., Toloba, A., and Langohr, K. (forthcoming).
+Gómez Melis, G., Toloba, A., and Langohr, K. (2026).
 "Residual Diagnostics for Generalized Linear Models with Interval-Censored Covariates."
 In: Du, M., Chen, D.-G., Jin, Z., and Sun, J. (eds.),
 \emph{Next-Gen Lifetime Data Analysis: Emerging Innovations and Applications}.
