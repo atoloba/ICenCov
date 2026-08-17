@@ -142,9 +142,9 @@ f.eta  <- function(s) theta[1] + theta[2] * s
 f.mu   <- function(s) famly$linkinv(f.eta(s))
 f.zeta <- function(s) famly$linkfun(f.mu(s)) + (y - f.mu(s)) / famly$mu.eta(f.eta(s))
 
-g0 <- plot_ic_mapping(cbind(zl, zr), funx = f.zeta, funy = f.eta) +
+g0 <- plot_ic_mapping(cbind(zl, zr), funx = f.eta, funy = f.zeta) +
   ggplot2::geom_abline(linetype = 2, alpha = .6) +
-  ggplot2::labs(x = "working response", y = "linear predictor", title = NULL)
+  ggplot2::labs(x = "linear predictor", y = "working response", title = NULL)
 plr <- attr(g0, "plotLR")
 lims <- range(c(plr$xl, plr$xr, plr$yl, plr$yr), finite = TRUE)
 g0 <- g0 + ggplot2::coord_fixed(xlim = lims, ylim = lims)
@@ -157,9 +157,9 @@ f.eta  <- function(s) theta[1] + theta[2] * s
 f.mu   <- function(s) famly$linkinv(f.eta(s))
 f.zeta <- function(s) famly$linkfun(f.mu(s)) + (y - f.mu(s)) / famly$mu.eta(f.eta(s))
 
-g1 <- plot_ic_mapping(cbind(zl, zr), funx = f.zeta, funy = f.eta) +
+g1 <- plot_ic_mapping(cbind(zl, zr), funx = f.eta, funy = f.zeta) +
   ggplot2::geom_abline(linetype = 2, alpha = .6) +
-  ggplot2::labs(x = "working response", y = "linear predictor", title = NULL)
+  ggplot2::labs(x = "linear predictor", y = "working response", title = NULL)
 plr <- attr(g1, "plotLR")
 lims <- range(c(plr$xl, plr$xr, plr$yl, plr$yr), finite = TRUE)
 g1 <- g1 + ggplot2::coord_fixed(xlim = lims, ylim = lims)
