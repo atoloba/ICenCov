@@ -8,36 +8,67 @@ plotint(
   dt,
   order.by.y = FALSE,
   show.z = FALSE,
-  namecols = list(zl = "zl", zr = "zr", y = "y", z = "z"),
-  eps = .Machine$double.eps^0.5
+  zl = "zl",
+  zr = "zr",
+  y = "y",
+  z = "z",
+  eps = NULL,
+  interval_args = list(linewidth = 0.4),
+  point_args = list(size = 0.1),
+  zpoint_args = list(shape = 20, color = "blue", alpha = 0.5)
 )
 }
 \arguments{
-\item{dt}{A data frame with columns \code{zl}, \code{zr}. Optional columns:
-\code{y} (used only when \code{order.by.y = TRUE}) and \code{z}
-(used only when \code{show.z = TRUE}).}
+\item{dt}{A data frame containing the interval endpoints and, optionally,
+response and true covariate values.}
 
 \item{order.by.y}{Logical; if \code{TRUE}, order intervals by \code{y}
 (ascending). If \code{FALSE}, order by the interval midpoint
 \eqn{(zl + zr)/2} (default).}
 
-\item{show.z}{Logical; if \code{TRUE}, plot the true \code{z} in blue.}
+\item{show.z}{Logical; if \code{TRUE}, plot the true covariate values from
+the column specified by \code{z}.}
 
-\item{namecols}{Named list giving the column names in \code{dt} that correspond to
-the interval endpoints \code{zl} and \code{zr}, and (if used) \code{z} and \code{y}.}
+\item{zl}{Character string giving the name of the left-endpoint column.
+Defaults to \code{"zl"}.}
 
-\item{eps}{Non-negative numeric tolerance used to detect intervals that should
-be treated as points for plotting, i.e. when \code{zl} and \code{zr} are
-equal up to numerical precision.}
+\item{zr}{Character string giving the name of the right-endpoint column.
+Defaults to \code{"zr"}.}
+
+\item{y}{Character string giving the name of the response column, used when
+\code{order.by.y = TRUE}. Defaults to \code{"y"}.}
+
+\item{z}{Character string giving the name of the true covariate column, used
+when \code{show.z = TRUE}. Defaults to \code{"z"}.}
+
+\item{eps}{Optional non-negative numeric value. A point is added for intervals
+with width smaller than or equal to \code{eps}. If \code{NULL}, points are
+used only for exact observations.}
+
+\item{interval_args}{Named list of additional arguments passed to
+\code{\link[ggplot2]{geom_linerange}}, such as \code{color},
+\code{linewidth}, \code{linetype}, and \code{alpha}. Defaults to
+\code{list(linewidth = 0.4)}.}
+
+\item{point_args}{Named list of additional arguments passed to
+\code{\link[ggplot2]{geom_point}} for exact or sufficiently small intervals,
+such as \code{color}, \code{fill}, \code{size}, \code{shape},
+\code{alpha}, and \code{stroke}. Defaults to \code{list(size = 0.1)}.}
+
+\item{zpoint_args}{Named list of additional arguments passed to
+\code{\link[ggplot2]{geom_point}} for the true covariate \code{z} when
+\code{show.z = TRUE}, such as \code{color}, \code{fill}, \code{size},
+\code{shape}, \code{alpha}, and \code{stroke}. Defaults to
+\code{list(shape = 20, color = "blue", alpha = 0.5)}.}
 }
 \value{
 A \pkg{ggplot2} object.
 }
 \description{
-Creates a plot from a dataframe containing left/right endpoints (by default
-\code{zl} and \code{zr}). Optionally, points for the true covariate \code{z}
-(e.g., in simulations) can be overlaid, and rows can be ordered by
-an outcome \code{y}. If your column names differ, pass them in \code{namecols}.
+Creates a plot from a dataframe containing left/right endpoints.
+Optionally, points for the true covariate \code{z} (e.g., in simulations)
+can be overlaid, and rows can be ordered by an outcome variable.
+If your column names differ, specify them through \code{zl}, \code{zr}, \code{y}, and \code{z}.
 }
 \examples{
 data(carotenoids)

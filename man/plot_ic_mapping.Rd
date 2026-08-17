@@ -4,7 +4,17 @@
 \alias{plot_ic_mapping}
 \title{Asset for model diagnostics of GLMs with an interval-censored covariate}
 \usage{
-plot_ic_mapping(LR, funx = function(x) x, funy, lseq = 10, ...)
+plot_ic_mapping(
+  LR,
+  funx = function(x) x,
+  funy,
+  lseq = 10,
+  eps = NULL,
+  funx_args = list(),
+  funy_args = list(),
+  path_args = list(alpha = 0.4),
+  point_args = list(alpha = 0.7)
+)
 }
 \arguments{
 \item{LR}{A two-column numeric matrix giving interval-censored values.}
@@ -18,8 +28,25 @@ values.}
 \item{lseq}{Integer. Number of grid points used within each interval. Larger values
 produce smoother curves but increase computation time.}
 
-\item{...}{Additional named arguments passed to \code{funx} and/or \code{funy} (only those
-matching the corresponding formal arguments are forwarded).}
+\item{eps}{Optional non-negative numeric value. If both the horizontal and vertical
+ranges of a mapped interval are smaller than or equal to \code{eps}, the interval
+is represented by a point instead of a path. Defaults to \code{NULL}, in which case
+all mapped intervals are represented by paths.}
+
+\item{funx_args}{Named list of additional arguments passed to \code{funx}.}
+
+\item{funy_args}{Named list of additional arguments passed to \code{funy}.}
+
+\item{path_args}{Named list of additional arguments passed to
+\code{\link[ggplot2]{geom_path}}, such as \code{color},
+\code{linewidth}, \code{linetype}, and \code{alpha}. Defaults to
+\code{list(alpha = 0.4)}.}
+
+\item{point_args}{Named list of additional arguments passed to
+\code{\link[ggplot2]{geom_point}} when \code{eps} is not \code{NULL},
+such as \code{color}, \code{fill}, \code{size}, \code{shape},
+\code{alpha}, and \code{stroke}. Defaults to
+\code{list(alpha = 0.7)}.}
 }
 \description{
 Supports model diagnostics when interval uncertainty in an interval-censored covariate

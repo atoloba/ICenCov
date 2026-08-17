@@ -6,9 +6,21 @@
 \alias{plot_icres_qq}
 \title{Normality of residuals for a GLM with an interval-censored covariate}
 \usage{
-plot_icres_cdf(LR, hatphi, type)
+plot_icres_cdf(
+  LR,
+  hatphi,
+  type,
+  cdf_args = list(),
+  reference_args = list(n = 500, alpha = 0.5, linetype = 2)
+)
 
-plot_icres_qq(LR, hatphi, type)
+plot_icres_qq(
+  LR,
+  hatphi,
+  type,
+  interval_args = list(),
+  reference_args = list(linetype = "dashed")
+)
 }
 \arguments{
 \item{LR}{A two-column numeric matrix giving interval-censored residuals,
@@ -19,6 +31,19 @@ the Normal reference for Pearson and deviance residuals (see Details).}
 
 \item{type}{Character string specifying the residual type. Options are
 \code{"quantile"}, \code{"pearson"}, and \code{"deviance"}.}
+
+\item{cdf_args}{Named list of arguments controlling Turnbull's NPMLE CDF in
+\code{plot_icres_cdf()}, passed to \code{\link{plot_ic_cdf}}.}
+
+\item{reference_args}{Named list of arguments controlling the reference lines:
+the Normal CDF in \code{plot_icres_cdf()} and the diagonal reference line in
+\code{plot_icres_qq()}. Defaults to
+\code{list(n = 500, alpha = 0.5, linetype = 2)} and
+\code{list(linetype = "dashed")}, respectively.}
+
+\item{interval_args}{Named list of arguments controlling the Turnbull
+quantile intervals in \code{plot_icres_qq()}, such as \code{color},
+\code{linewidth}, \code{linetype}, and \code{alpha}.}
 }
 \description{
 Plot-based diagnostic tools to assess normality of interval-censored residuals
@@ -76,13 +101,17 @@ res_ig <- ires(
 g_gam_ecdf <- plot_icres_cdf(
   res_gam$icquant,
   hatphi = fit_gam$thetaHat[length(fit_gam$thetaHat)],
-  type = "quantile"
+  type = "quantile",
+  cdf_args = list(block_args = list(alpha = 0.3)),
+  reference_args = list(linetype = 2, color = "red")
 ) + ggplot2::labs(title = NULL, y = "cum. distribution function", x = NULL)
 
 g_ig_ecdf <- plot_icres_cdf(
   res_ig$icquant,
   hatphi = fit_ig$thetaHat[length(fit_ig$thetaHat)],
-  type = "quantile"
+  type = "quantile",
+  cdf_args = list(block_args = list(alpha = 0.3)),
+  reference_args = list(linetype = 2, color = "red")
 ) + ggplot2::labs(title = NULL, y = "cum. distribution function", x = NULL)
 
 g_gam_qq <- plot_icres_qq(
@@ -98,7 +127,7 @@ g_ig_qq <- plot_icres_qq(
 ) + ggplot2::labs(title = NULL)
 
 
-## In the output, look for: (i) ECDF close to the dashed Normal curve and
+## In the output, look for: (i) Turnbull's CDF close to the Normal reference curve and
 ## (ii) Q-Q intervals mostly aligned with the diagonal. Strong deviations suggest lack of fit.
 
 ggpubr::ggarrange(g_gam_ecdf, g_gam_qq, g_ig_ecdf, g_ig_qq, ncol = 2, nrow = 2)

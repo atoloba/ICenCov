@@ -11,8 +11,21 @@
 #'   values.
 #' @param lseq Integer. Number of grid points used within each interval. Larger values
 #'   produce smoother curves but increase computation time.
-#' @param ... Additional named arguments passed to \code{funx} and/or \code{funy} (only those
-#'   matching the corresponding formal arguments are forwarded).
+#' @param eps Optional non-negative numeric value. If both the horizontal and vertical
+#'   ranges of a mapped interval are smaller than or equal to \code{eps}, the interval
+#'   is represented by a point instead of a path. Defaults to \code{NULL}, in which case
+#'   all mapped intervals are represented by paths.
+#' @param funx_args Named list of additional arguments passed to \code{funx}.
+#' @param funy_args Named list of additional arguments passed to \code{funy}.
+#' @param path_args Named list of additional arguments passed to
+#'   \code{\link[ggplot2]{geom_path}}, such as \code{color},
+#'   \code{linewidth}, \code{linetype}, and \code{alpha}. Defaults to
+#'   \code{list(alpha = 0.4)}.
+#' @param point_args Named list of additional arguments passed to
+#'   \code{\link[ggplot2]{geom_point}} when \code{eps} is not \code{NULL},
+#'   such as \code{color}, \code{fill}, \code{size}, \code{shape},
+#'   \code{alpha}, and \code{stroke}. Defaults to
+#'   \code{list(alpha = 0.7)}.
 #'
 #' @details
 #' For convenience, the returned \code{ggplot2} object has an attribute \code{"plotLR"},
@@ -28,7 +41,7 @@
 #' Springer.
 #'
 #'
-#' @importFrom ggplot2 ggplot aes geom_path theme_bw
+#' @importFrom ggplot2 ggplot aes geom_path geom_point theme_bw
 #'
 #' @examples
 #' \donttest{
@@ -167,33 +180,81 @@
 #' }
 #'
 #' @export
-plot_ic_mapping <- function(LR, funx = function(x) x, funy, lseq = 10, ...) {
-  dots  <- list(...)
-  dotsx <- dots[intersect(names(dots), names(formals(funx)))]
-  dotsy <- dots[intersect(names(dots), names(formals(funy)))]
-
+plot_ic_mapping <- function (LR, funx = function(x) x, funy, lseq = 10, eps=NULL, 
+                             funx_args = list(), funy_args = list(),
+                             path_args = list(alpha = 0.4), point_args = list(alpha = 0.7)) 
+{
+  # check arguments
+  if (nrow(LR) == 1L) {
+    stop("`LR` contains just one interval.")
+  }
+  if (lseq <= 1) {
+    lseq <- 2
+    message("`lseq` must be at least 2; using `lseq = 2`.")
+  }
+  path_args <- utils::modifyList(list(alpha = 0.4), path_args)
+  point_args <- utils::modifyList(list(alpha = 0.7), point_args)
+  
   vals <- apply(LR, 1, function(x) seq(x[1], x[2], length.out = lseq))
-  xs <- apply(vals, 1, function(z) do.call(funx, c(list(z), dotsx)))
-  ys <- apply(vals, 1, function(z) do.call(funy, c(list(z), dotsy)))
+  
+  xs <- apply(vals, 1, function(z) do.call(funx, c(list(z), funx_args)))
+  ys <- apply(vals, 1, function(z) do.call(funy, c(list(z), funy_args)))
+  
   df <- data.frame(
     obs = rep(seq_len(ncol(vals)), each = nrow(vals)),
     x   = as.vector(t(xs)),
     y   = as.vector(t(ys))
   )
-
+  
   plotLR <- data.frame(
     id = seq_len(nrow(LR)),
-    xl = apply(xs, 1, min), xr = apply(xs, 1, max),
-    yl = apply(ys, 1, min), yr = apply(ys, 1, max)
+    xl = apply(xs, 1, min),
+    xr = apply(xs, 1, max),
+    yl = apply(ys, 1, min),
+    yr = apply(ys, 1, max)
   )
+  
   plotLR$dx <- plotLR$xr - plotLR$xl
   plotLR$dy <- plotLR$yr - plotLR$yl
-
-  plt <- ggplot(df, aes(x = x, y = y, group = obs)) +
-    geom_path(alpha = 0.4) +
-    theme_bw()
+  
+  if (is.null(eps)) {
+    
+    plt <- ggplot(df, aes(x = x, y = y, group = obs)) +
+      do.call(geom_path, path_args) +
+      theme_bw()
+    
+  } else {
+    
+    # Draw a point when neither the horizontal nor the vertical range is large enough to be visible
+    small <- plotLR$id[plotLR$dx <= eps & plotLR$dy <= eps]
+    large <- setdiff(plotLR$id, small)
+    
+    df_lines <- df[df$obs %in% large, , drop = FALSE]
+    
+    df_points <- data.frame(
+      obs = small,
+      x = (plotLR$xl[small] + plotLR$xr[small]) / 2,
+      y = (plotLR$yl[small] + plotLR$yr[small]) / 2
+    )
+    
+    plt <- ggplot(df, aes(x = x, y = y, group = obs)) +
+      do.call(geom_path, c(list(data = df_lines), path_args)) +
+      do.call(geom_point, c(
+        list(
+          data = df_points,
+          mapping = aes(x = x, y = y),
+          inherit.aes = FALSE
+        ),
+        point_args
+      )
+      ) +
+      theme_bw()
+    
+  }
+  
   attr(plt, "plotLR") <- plotLR
   plt
 }
+
 
 utils::globalVariables(c("obs","x","y"))

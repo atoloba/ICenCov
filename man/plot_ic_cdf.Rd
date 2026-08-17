@@ -6,10 +6,13 @@
 \usage{
 plot_ic_cdf(
   lwhat,
-  col = 1:length(lwhat),
+  col = seq_along(lwhat),
   nleg = "",
   style = "seg",
-  gini = NULL
+  gini = NULL,
+  line_args = list(alpha = 0.5),
+  segment_args = list(alpha = 0.5),
+  block_args = list(alpha = 0.5)
 )
 }
 \arguments{
@@ -24,6 +27,22 @@ plot_ic_cdf(
 
 \item{gini}{Optional \pkg{ggplot2} object to add layers to; if \code{NULL},
 a new plot is created.}
+
+\item{line_args}{Named list of arguments passed to
+\code{\link[ggplot2]{geom_linerange}}, such as \code{linewidth},
+\code{linetype}, and \code{alpha}. Color is controlled by \code{col}
+and should not be supplied. Defaults to \code{list(alpha = 0.5)}.}
+
+\item{segment_args}{Named list of arguments for \code{style = "seg"}, passed to
+\code{\link[ggplot2]{geom_segment}}, such as \code{linewidth},
+\code{linetype}, and \code{alpha}. Color is controlled by \code{col}
+and should not be supplied. Defaults to \code{list(alpha = 0.5)}.}
+
+\item{block_args}{Named list of arguments for \code{style = "block"}, passed to
+\code{\link[ggplot2]{geom_rect}}, such as \code{linewidth},
+\code{linetype}, and \code{alpha}. Color and fill are controlled by
+\code{col} and should not be supplied. Defaults to
+\code{list(alpha = 0.5)}.}
 }
 \value{
 A \pkg{ggplot2} object.
