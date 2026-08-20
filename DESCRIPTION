@@ -1,6 +1,6 @@
 Package: ICenCov
 Title: Regression Models with Interval-Censored Covariates
-Version: 0.8.0
+Version: 0.8.1
 Date: 2025-10-05
 Authors@R: c(
     person("Andrea", "Toloba", , "andrea.toloba@upc.edu", role = c("aut", "cre")),
